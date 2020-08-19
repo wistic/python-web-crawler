@@ -127,3 +127,7 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+
+#Custom ignored folders
+html-files/
+reference-material/
