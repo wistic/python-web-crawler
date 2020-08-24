@@ -9,5 +9,9 @@ config = {
 
     "user_agent": "Python Spiderbot",
 
-    "No_of_threads": 5
+    "No_of_threads": 5,
+
+    "database_name": "python-web-crawler",
+
+    "collection_name": "Links"
 }

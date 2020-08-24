@@ -1,0 +1,4 @@
+pymongo==3.11.0
+soupsieve==2.0.1
+beautifulsoup4==4.9.1
+requests==2.22.0

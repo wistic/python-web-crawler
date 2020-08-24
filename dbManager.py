@@ -10,7 +10,7 @@ from cfg import config
 
 def isDBwithinLimit(collectionObject):
     count = collectionObject.count_documents({})
-    if count > 5000:
+    if count > config["Max_links_limit"]:
         return False
     return True
 
@@ -18,7 +18,10 @@ def isDBwithinLimit(collectionObject):
 
 
 def insertRootURL(collectionObject):
-    document = {"Link": config["root_url"],
+    url = config["root_url"]
+    if url[-1] == "/":
+        url = url[0:(len(url)-1)]
+    document = {"Link": url,
                 "sourceLink": "Manual",
                 "isCrawled": "False",
                 "createdAt": datetime.datetime.now()}
@@ -53,7 +56,7 @@ def insertNewURLs(collectionObject, newURLList, sourceURL):
                     "sourceLink": sourceURL,
                     "isCrawled": "False",
                     "createdAt": datetime.datetime.now()}
-        if isDBwithinLimit(collectionObject) >= 5000:
+        if isDBwithinLimit(collectionObject) == False:
             logger.debug("Storage limit of {} links crossed".format(
                 config["Max_links_limit"]))
             return -1  # for reference purpose returning -1
@@ -62,6 +65,7 @@ def insertNewURLs(collectionObject, newURLList, sourceURL):
                 "Link already exists in the database -> {}".format(link))
         else:
             collectionObject.insert_one(document)
+    return 0
 
 
 # Function to update the scraped URL
@@ -69,7 +73,7 @@ def updateEntry(collectionObject, urldata):
     document = collectionObject.find_one({"Link": urldata["Link"]})
     if document is None:
         logger.warning("Link missing from the database.")
-        return "-2"         #Represents a missing link
+        return "-2"  # Represents a missing link
     else:
         filter = {"Link": urldata["Link"]}
         path = str(document["_id"]) + "." + \
