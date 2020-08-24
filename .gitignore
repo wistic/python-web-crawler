@@ -131,3 +131,6 @@ dmypy.json
 #Custom ignored folders
 html-files/
 reference-material/
+
+#test files
+test.py
