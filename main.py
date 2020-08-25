@@ -65,6 +65,8 @@ if __name__ == '__main__':
             for i in range(no_of_threads):
                 return_values.extend(future[i].result())
         for urlList in return_values:
+            if not urlList:
+                continue
             sourceURL = urlList[0]
             del urlList[0]
             dbStatus = insertNewURLs(collectionObject, urlList, sourceURL)

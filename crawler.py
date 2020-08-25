@@ -18,12 +18,12 @@ def crawl(collectionObject, toCrawlLinkList):
         try:
             logger.debug("Making HTTP GET request: " + link)
             request = requests.get(link, headers=headers, stream=True)
-            logger.debug("Got response: " + link)
         except:
             logger.warning("Failed to get HTML source from " +
                            link+". Check Internet connection")
-            traceback.print_exc()
             continue
+        else:
+            logger.debug("Got response: " + link)
         contentType = request.headers['content-type'].split(';', 1)[0]
         try:
             contentLength = request.headers['content-length']
