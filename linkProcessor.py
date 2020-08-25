@@ -26,6 +26,7 @@ def returnValidLinks(sourceLink, receivedHTML):
             trimmedLinks.append(link[0:(len(link)-1)])
         else:
             trimmedLinks.append(link)
+    trimmedLinks = list(dict.fromkeys(trimmedLinks))
     trimmedValidLinks = []
     trimmedValidLinks.append(sourceLink)
     trimmedValidLinks.extend(trimmedLinks)

@@ -77,7 +77,7 @@ def updateEntry(collectionObject, urldata):
         filter = {"Link": urldata["Link"]}
         path = str(document["_id"]) + "." + \
             urldata["contentType"].split('/', 1)[1]
-        if urldata["responseStatus"] != "200":
+        if urldata["responseStatus"] != 200:
             newvalues = {
                 "$set": {
                     "isCrawled": "True",

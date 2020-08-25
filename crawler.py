@@ -18,20 +18,23 @@ def crawl(collectionObject, toCrawlLinkList):
         try:
             logger.debug("Making HTTP GET request: " + link)
             request = requests.get(link, headers=headers, stream=True)
-            logger.debug("Got response, content length = " +
-                         str(len(request.text)))
+            logger.debug("Got response: " + link)
         except:
             logger.warning("Failed to get HTML source from " +
                            link+". Check Internet connection")
             traceback.print_exc()
             continue
         contentType = request.headers['content-type'].split(';', 1)[0]
+        try:
+            contentLength = request.headers['content-length']
+        except KeyError:
+            contentLength = str(len(request.text))
         urldata = {
             "Link": link,
             "lastCrawlDt": datetime.datetime.now(),
             "responseStatus": request.status_code,
             "contentType": contentType,
-            "contentLength": request.headers['content-length'] if bool(request.headers['content-length']) else str(len(request.text))
+            "contentLength": contentLength
         }
         updateStatus = updateEntry(collectionObject, urldata)
         filename = ""

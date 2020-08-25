@@ -5,7 +5,7 @@ from logger import logger
 
 def saveFile(filename, urldata, responseObject):
     filePath = str(os.path.abspath(os.getcwd()))+"/html-files/"+filename
-    if urldata["responseStatus"] != "200":
+    if urldata["responseStatus"] != 200:
         try:
             os.remove(filePath)
         except FileNotFoundError:
