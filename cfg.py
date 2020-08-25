@@ -13,5 +13,7 @@ config = {
 
     "database_name": "python-web-crawler",
 
-    "collection_name": "Links"
+    "collection_name": "Links",
+
+    "connection_uri": "mongodb://localhost:27017/"
 }

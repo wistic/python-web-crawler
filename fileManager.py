@@ -15,10 +15,8 @@ def saveFile(filename, urldata, responseObject):
         if urldata["contentType"].split("/", 1)[0] == "text":
             with open(filePath, "w") as file:
                 file.write(responseObject.text)
-            file.close()
         else:
             with open(filePath, "wb") as file:
                 for chunk in responseObject.iter_content(chunk_size=128):
                     file.write(chunk)
-            file.close()
         return 1

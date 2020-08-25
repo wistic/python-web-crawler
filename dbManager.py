@@ -10,7 +10,7 @@ from cfg import config
 
 def isDBwithinLimit(collectionObject):
     count = collectionObject.count_documents({})
-    if count > config["Max_links_limit"]:
+    if count >= config["Max_links_limit"]:
         return False
     return True
 
@@ -43,7 +43,6 @@ def returnExpiredLinks(collectionObject):
     tdelta = timedelta(hours=-config["Recrawl_time_limit_hours"])
     recrawlTimestamp = timestamp + tdelta
     expiredLinks = []
-    print(recrawlTimestamp)
     for document in collectionObject.find({"$and": [{"lastCrawlDt": {"$lte": recrawlTimestamp}}, {"isCrawled": "True"}]}):
         expiredLinks.append(document["Link"])
     return expiredLinks

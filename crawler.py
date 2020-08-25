@@ -9,7 +9,7 @@ from fileManager import saveFile
 from linkProcessor import returnValidLinks
 
 
-def crawl(toCrawlLinkList, collectionObject):
+def crawl(collectionObject, toCrawlLinkList):
     newFoundLinks = []
     headers = {
         'User-Agent': config['user_agent'],
@@ -21,8 +21,8 @@ def crawl(toCrawlLinkList, collectionObject):
             logger.debug("Got response, content length = " +
                          str(len(request.text)))
         except:
-            logger.exception("Failed to get HTML source from " +
-                             link+". Check Internet connection")
+            logger.warning("Failed to get HTML source from " +
+                           link+". Check Internet connection")
             traceback.print_exc()
             continue
         contentType = request.headers['content-type'].split(';', 1)[0]
@@ -34,6 +34,7 @@ def crawl(toCrawlLinkList, collectionObject):
             "contentLength": request.headers['content-length'] if bool(request.headers['content-length']) else str(len(request.text))
         }
         updateStatus = updateEntry(collectionObject, urldata)
+        filename = ""
         if updateStatus == "-2":
             logger.warning("Link {} is missing from the database".format(link))
             continue
@@ -42,6 +43,5 @@ def crawl(toCrawlLinkList, collectionObject):
         saveFile(filename, urldata, request)
         if request.status_code == 200 and contentType == 'text/html':
             validLinks = returnValidLinks(link, request.text)
-        newFoundLinks.extend(validLinks)
-    newFoundLinks = list(dict.fromkeys(newFoundLinks))
+        newFoundLinks.append(validLinks)
     return newFoundLinks
