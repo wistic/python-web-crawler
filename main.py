@@ -56,14 +56,14 @@ if __name__ == '__main__':
             distributorList.append([])
         for i in range(len(uncrawledLinks)):
             distributorList[(i % no_of_threads)].append(uncrawledLinks[i])
-        future = []
         return_values = []
         with concurrent.futures.ThreadPoolExecutor(max_workers=no_of_threads) as executor:
+            futures = []
             for i in range(no_of_threads):
-                future.append(executor.submit(
-                    crawl, collectionObject, distributorList[i]))
-            for i in range(no_of_threads):
-                return_values.extend(future[i].result())
+                futures.append(executor.submit(
+                    crawl, collectionObject=collectionObject, toCrawlLinkList=distributorList[i]))
+            for future in concurrent.futures.as_completed(futures):
+                return_values.extend(future.result())
         for urlList in return_values:
             if not urlList:
                 continue
