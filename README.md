@@ -5,7 +5,7 @@ This repository contains code for crawling the Internet, dowloading and extracti
 The program makes web requests starting from a root URL which has been manually inserted into the database, downloads it and saves it locally. Then it extracts
 http links from the downloaded source and saves them to the database. And the process repeats ...
 
-The supported database is [MongoDB](https://www.mongodb.com/)
+The supported database is [MongoDB](https://www.mongodb.com/).
 
 ### To run locally:
 
