@@ -2,6 +2,7 @@ from pymongo import MongoClient
 import pymongo
 import time
 import concurrent.futures
+import os
 
 from logger import logger
 from cfg import config
@@ -9,6 +10,8 @@ from crawler import crawl
 from dbManager import insertRootURL, insertNewURLs, returnExpiredLinks, returnUncrawledLinks
 
 if __name__ == '__main__':
+    logger.info('Hi! Lets begin.')
+
     logger.debug('Started the Web Crawler')
 
     # define all the global variables
@@ -17,7 +20,14 @@ if __name__ == '__main__':
     database_name = config['database_name']
     collection_name = config['collection_name']
     sleep_time = config['sleep_timer']
+    download_dir_path = config['download_dir_path']
 
+    logger.debug('Verifying if the file download path is valid')
+    if os.path.isdir(download_dir_path) == False:
+        logger.critical(
+            'The download directory path given is invalid. Please check if the directory exists and try again.')
+        exit()
+    logger.debug('Directory path valid.')
     logger.debug('Attempting to connect to MongoDB')
     try:
         client = MongoClient(config['connection_uri'],

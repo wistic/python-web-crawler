@@ -15,5 +15,7 @@ config = {
 
     "collection_name": "Links",
 
-    "connection_uri": "mongodb://localhost:27017/"
+    "connection_uri": "mongodb://localhost:27017/",
+
+    "download_dir_path": "/home/wistic/github/python-web-crawler/html-files"
 }

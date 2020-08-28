@@ -1,10 +1,14 @@
 import os
 
 from logger import logger
-
+from cfg import config
 
 def saveFile(filename, urldata, responseObject):
-    filePath = str(os.path.abspath(os.getcwd()))+"/html-files/"+filename
+    download_dir_path = config["download_dir_path"]
+    if download_dir_path[-1] == "/":
+        filePath = download_dir_path + filename
+    else:
+        filePath = download_dir_path + "/" + filename
     if urldata["responseStatus"] != 200:
         try:
             os.remove(filePath)
