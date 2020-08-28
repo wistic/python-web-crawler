@@ -1,3 +1,7 @@
+"""
+This is a file used for logging purposes.
+"""
+
 import logging
 import logging.handlers
 
